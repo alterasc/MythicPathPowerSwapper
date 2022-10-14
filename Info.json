@@ -1,0 +1,14 @@
+﻿{
+  "AssemblyName": "MythicPathPowerSwapper.dll",
+  "Author": "AlterAsc",
+  "DisplayName": "MythicPathPowerSwapper",
+  "EntryMethod": "MythicPathPowerSwapper.Main.Load",
+  "GameVersion": "2.0.0",
+  "HomePage": "",
+  "Id": "MythicPathPowerSwapper",
+  "ManagerVersion": "0.23.0",
+  "Repository": "",
+  "Requirements": [ "ModMenu-1.2.5" ],
+  "LoadAfter": [ "MewsiferConsole.Mod" ],
+  "Version": "1.0.0"
+}
