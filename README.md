@@ -24,9 +24,12 @@ Now download this mod: [**LINK**](https://github.com/alterasc/CombatRelief/relea
 Does NOT introduce save dependency, so safe to remove mid-game. Just do respec and things should mostly (see notes below) return to normal.
 Affects ALL saves globally.
 
+*CHANGES APPLY ONLY AFTER RESTART*
+
 How to use: 
 Choose which mythic path to change.
 Choose how to change.
+
 
 Option "remove path powers" makes your progression like your companions. "Remove all powers" removes everything. You still has mythic rank, but no abilities.
 
