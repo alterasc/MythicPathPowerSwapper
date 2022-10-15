@@ -9,6 +9,6 @@
   "ManagerVersion": "0.23.0",
   "Repository": "",
   "Requirements": [ "ModMenu-1.2.5" ],
-  "LoadAfter": [ "MewsiferConsole.Mod" ],
+  "LoadAfter": [ "MewsiferConsole.Mod", "TabletopTweaks-Core", "TabletopTweaks-Reworks", "TabletopTweaks-Base", "WOTR_PATH_OF_RAGE" ],
   "Version": "1.0.0"
 }
