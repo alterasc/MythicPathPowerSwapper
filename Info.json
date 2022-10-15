@@ -4,11 +4,11 @@
   "DisplayName": "MythicPathPowerSwapper",
   "EntryMethod": "MythicPathPowerSwapper.Main.Load",
   "GameVersion": "2.0.0",
-  "HomePage": "",
+  "HomePage": "https://github.com/alterasc/MythicPathPowerSwapper",
   "Id": "MythicPathPowerSwapper",
   "ManagerVersion": "0.23.0",
-  "Repository": "",
+  "Repository": "https://raw.githubusercontent.com/alterasc/MythicPathPowerSwapper/main/Repository.json",
   "Requirements": [ "ModMenu-1.2.5" ],
-  "LoadAfter": [ "MewsiferConsole.Mod", "TabletopTweaks-Core", "TabletopTweaks-Reworks", "TabletopTweaks-Base", "WOTR_PATH_OF_RAGE" ],
+  "LoadAfter": [ "MewsiferConsole.Mod", "TabletopTweaks-Core", "TabletopTweaks-Reworks", "TabletopTweaks-Base", "WOTR_PATH_OF_RAGE", "SpellbookMerge" ],
   "Version": "1.0.0"
 }
