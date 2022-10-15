@@ -10,7 +10,7 @@ But if you don't want to, here are the links for manual download (**Install only
 
 First get [ModMenu](https://github.com/WittleWolfie/ModMenu/releases) if you don't have it
 
-[**LINK**](https://github.com/alterasc/CombatRelief/releases/latest)
+Now download this mod: [**LINK**](https://github.com/alterasc/CombatRelief/releases/latest)
 
 ## How to install:
 
