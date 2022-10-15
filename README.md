@@ -41,6 +41,8 @@ This adds Aivu to the selected mythic path (regardless of what you're copying fr
 Options to demythic mythic hero and companions can be enabled without changes to your path powers.
 
 ## Notes
+Affects ALL saves. Because it does not create new blueprints (for save safety ) it changes existing. As unfortunate side effect of this if you set for example Lich have Aeon powers, that changes some Aeon powers to rely on Lich Mythic class, meaning it can and will a bit mess things up if you load game where you're Aeon.
+
 Affects things that are defined in mythic class progression. If you see it on mythic page - it's will be affected.   
 You will get spellbook from the class that you copy from.    
 You will receive Artifact Cloak of your original path, but enchantment will be swapped to the copied path.   
@@ -52,6 +54,10 @@ Azata receives spells depending on sub-path. So if you copy from Azata you don't
 
 Late game paths are unchanged. If you swap to Devil with changed progression I have no idea what will happen. Probably nothing, but it's on you.
 Changing to other late game paths should work as usual.
+
+## Troubleshooting
+Unless you enabled "Add Aivu", turning mod off and doing respec will solve all your problems.
+If you used "Add Aivu" maybe respec will help. Maybe not.
 
 ## Compatibility with mods
 Maybe?   
