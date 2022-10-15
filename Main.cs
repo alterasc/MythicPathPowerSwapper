@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using Kingmaker.Blueprints.JsonSystem;
-using MythicPathPowerSwapper.Base;
 using UnityModManagerNet;
 
 namespace MythicPathPowerSwapper
@@ -50,6 +49,7 @@ namespace MythicPathPowerSwapper
                 if (_initialized) return;
                 _initialized = true;
                 Main.Settings.Initialize();
+                PowerSwapper.Init();
             }
         }
     }

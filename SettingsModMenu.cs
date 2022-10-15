@@ -1,7 +1,7 @@
 ﻿using Kingmaker.Localization;
 using ModMenu.Settings;
 
-namespace MythicPathPowerSwapper.Base
+namespace MythicPathPowerSwapper
 {
     internal class SettingsModMenu
     {
