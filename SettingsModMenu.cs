@@ -1,5 +1,6 @@
 ﻿using Kingmaker.Localization;
 using ModMenu.Settings;
+using System;
 using System.Collections.Generic;
 
 namespace MythicPathPowerSwapper
@@ -8,11 +9,37 @@ namespace MythicPathPowerSwapper
     {
         private static readonly string RootKey = "AlterAsc.MythicPathPowerSwapper".ToLower();
 
+        public bool IsLegendarification
+        {
+            get
+            {
+                return ModMenu.ModMenu.GetSettingValue<int>(GetKey("mythictochange")) > 0 
+                    && ModMenu.ModMenu.GetSettingValue<int>(GetKey("mythicsource")) == 9;
+            }
+        }
+
         public int MythicToChange => ModMenu.ModMenu.GetSettingValue<int>(GetKey("mythictochange"));
         public int MythicFrom => ModMenu.ModMenu.GetSettingValue<int>(GetKey("mythicsource"));
         public bool UnmythicHero => ModMenu.ModMenu.GetSettingValue<bool>(GetKey("unmythichero"));
         public bool AddAivu => ModMenu.ModMenu.GetSettingValue<bool>(GetKey("addaivu"));
         public bool UnmythicCompanions => ModMenu.ModMenu.GetSettingValue<bool>(GetKey("unmythiccompanions"));
+
+        public Guid PatchedClass
+        {
+            get
+            {
+                return MythicToChange switch
+                {                    
+                    1 => PowerSwapper.AeonId,
+                    2 => PowerSwapper.AngelId,
+                    3 => PowerSwapper.AzataId,
+                    4 => PowerSwapper.DemonId,
+                    5 => PowerSwapper.LichId,
+                    6 => PowerSwapper.TricksterId,
+                    _ => Guid.Empty,
+                };
+            }
+        }
 
         internal void Initialize()
         {
@@ -30,6 +57,7 @@ namespace MythicPathPowerSwapper
             var mythicSource = new List<LocalizedString>(mythics);
             mythicSource.Add(CreateString("partialunmythic", "Remove path powers"));
             mythicSource.Add(CreateString("unmythic", "Remove all mythic powers"));
+            mythicSource.Add(CreateString("legendarify", "Legendarify path"));
 
             ModMenu.ModMenu.AddSettings(
               SettingsBuilder

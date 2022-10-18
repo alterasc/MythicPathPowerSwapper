@@ -9,6 +9,7 @@ using Kingmaker.Designers.Mechanics.Facts;
 using Kingmaker.UnitLogic.FactLogic;
 using Kingmaker.UnitLogic.Mechanics.Properties;
 using Kingmaker.Utility;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static Kingmaker.Blueprints.Classes.BlueprintProgression;
@@ -31,54 +32,61 @@ namespace MythicPathPowerSwapper
             public BlueprintItemEquipmentShoulders Cloak;
         }
 
-        private MythicClass _aeon = new MythicClass()
+        internal static readonly Guid AeonId = Guid.Parse("15a85e67b7d69554cab9ed5830d0268e");
+        internal static readonly Guid AngelId = Guid.Parse("a5a9fe8f663d701488bd1db8ea40484e");
+        internal static readonly Guid AzataId = Guid.Parse("9a3b2c63afa79744cbca46bea0da9a16");
+        internal static readonly Guid DemonId = Guid.Parse("8e19495ea576a8641964102d177e34b7");
+        internal static readonly Guid LichId = Guid.Parse("5d501618a28bdc24c80007a5c937dcb7");
+        internal static readonly Guid TricksterId = Guid.Parse("8df873a8c6e48294abdb78c45834aa0a");
+
+        private MythicClass _aeon = new()
         {
-            MClass = Utils.GetBlueprint<BlueprintCharacterClass>("15a85e67b7d69554cab9ed5830d0268e"),
+            MClass = Utils.GetBlueprint<BlueprintCharacterClass>(AeonId),
             Spellbook = Utils.GetBlueprint<BlueprintSpellbook>("6091d66a2a9876b4891b989804cfbcb6"),
             Progression = Utils.GetBlueprint<BlueprintProgression>("34b9484b0d5ce9340ae51d2bf9518bbe"),
             SummonProgression = Utils.GetBlueprint<BlueprintProgression>("f2305312ccccc2a46a49ba834ff7a092"),
             Cloak = Utils.GetBlueprint<BlueprintItemEquipmentShoulders>("b24d6185acea1f949b026c3b58e47947")
         };
 
-        private MythicClass _angel = new MythicClass()
+        private MythicClass _angel = new()
         {
-            MClass = Utils.GetBlueprint<BlueprintCharacterClass>("a5a9fe8f663d701488bd1db8ea40484e"),
+            MClass = Utils.GetBlueprint<BlueprintCharacterClass>(AngelId),
             Spellbook = Utils.GetBlueprint<BlueprintSpellbook>("015658ac45811b843b036e4ccc96c772"),
             Progression = Utils.GetBlueprint<BlueprintProgression>("2f6fe889e91b6a645b055696c01e2f74"),
             SummonProgression = Utils.GetBlueprint<BlueprintProgression>("038090ec6b6a205418665f2489606534"),
             Cloak = Utils.GetBlueprint<BlueprintItemEquipmentShoulders>("2f45a11adb74b5a4a81f857a9886c5bd")
         };
 
-        private MythicClass _azata = new MythicClass()
+        private MythicClass _azata = new()
         {
-            MClass = Utils.GetBlueprint<BlueprintCharacterClass>("9a3b2c63afa79744cbca46bea0da9a16"),
+            MClass = Utils.GetBlueprint<BlueprintCharacterClass>(AzataId),
             Spellbook = Utils.GetBlueprint<BlueprintSpellbook>("b21b9f5e2831c2549a782d8128fb905b"),
             Progression = Utils.GetBlueprint<BlueprintProgression>("9db53de4bf21b564ca1a90ff5bd16586"),
             SummonProgression = Utils.GetBlueprint<BlueprintProgression>("b172d5db251e3e0499671074ee15f7df"),
             Cloak = Utils.GetBlueprint<BlueprintItemEquipmentShoulders>("78cd50deada655e4cbe49765c0bbb7e4")
         };
 
-        private MythicClass _demon = new MythicClass()
+        private MythicClass _demon = new()
         {
-            MClass = Utils.GetBlueprint<BlueprintCharacterClass>("8e19495ea576a8641964102d177e34b7"),
+            MClass = Utils.GetBlueprint<BlueprintCharacterClass>(DemonId),
             Spellbook = Utils.GetBlueprint<BlueprintSpellbook>("e3daa889c72982e45a026f62cc84937d"),
             Progression = Utils.GetBlueprint<BlueprintProgression>("285fe49f7df8587468f676aa49362213"),
             SummonProgression = Utils.GetBlueprint<BlueprintProgression>("7764f540fbab8ab4c95492f1d8d4f04f"),
             Cloak = Utils.GetBlueprint<BlueprintItemEquipmentShoulders>("cdc95a3c4a74a874a895b3be61369564")
         };
 
-        private MythicClass _lich = new MythicClass()
+        private MythicClass _lich = new()
         {
-            MClass = Utils.GetBlueprint<BlueprintCharacterClass>("5d501618a28bdc24c80007a5c937dcb7"),
+            MClass = Utils.GetBlueprint<BlueprintCharacterClass>(LichId),
             Spellbook = Utils.GetBlueprint<BlueprintSpellbook>("08a80074263809c4b9616aac05af90ae"),
             Progression = Utils.GetBlueprint<BlueprintProgression>("ccec4e01b85bf5d46a3c3717471ba639"),
             SummonProgression = Utils.GetBlueprint<BlueprintProgression>("7de9c45b07635e2418dffc185bd2eff4"),
             Cloak = Utils.GetBlueprint<BlueprintItemEquipmentShoulders>("1622ceba1d7829b4f9ee709b71bd6baf")
         };
 
-        private MythicClass _trickster = new MythicClass()
+        private MythicClass _trickster = new()
         {
-            MClass = Utils.GetBlueprint<BlueprintCharacterClass>("8df873a8c6e48294abdb78c45834aa0a"),
+            MClass = Utils.GetBlueprint<BlueprintCharacterClass>(TricksterId),
             Spellbook = Utils.GetBlueprint<BlueprintSpellbook>("2ff51e0531ed8e545ab4cb35c32d40f4"),
             Progression = Utils.GetBlueprint<BlueprintProgression>("cc64789b0cc5df14b90da1ffee7bbeea"),
             SummonProgression = Utils.GetBlueprint<BlueprintProgression>("7c6a97566f7125c4c839720200311c3c"),
@@ -97,14 +105,14 @@ namespace MythicPathPowerSwapper
             PFLog.Default.Log("Replacing {0} with {1}", mTo, mFrom);
             if (mTo != 0)
             {
-                Dictionary<int, MythicClass> m = new Dictionary<int, MythicClass>()
+                Dictionary<int, MythicClass> m = new()
                 {
-                    {1, _aeon },
-                    {2, _angel },
-                    {3, _azata },
-                    {4, _demon},
-                    {5, _lich },
-                    {6, _trickster }
+                    { 1, _aeon },
+                    { 2, _angel },
+                    { 3, _azata },
+                    { 4, _demon },
+                    { 5, _lich },
+                    { 6, _trickster }
                 };
                 var mClassTo = m[mTo];
                 if (mFrom > 0)
@@ -134,6 +142,10 @@ namespace MythicPathPowerSwapper
                     else if (mFrom == 8)
                     {
                         UnMythic(mClassTo);
+                    }
+                    else if (mFrom == 9)
+                    {
+                        LegendarifyClass(mClassTo);
                     }
                 }
                 if (Main.Settings.AddAivu && mClassTo.MClass != _azata.MClass)
@@ -283,6 +295,78 @@ namespace MythicPathPowerSwapper
                     else
                     {
                         features.Add(_mythicFeatSelection);
+                    }
+                    return new LevelEntry() { Level = x, m_Features = features };
+                }
+                ).ToArray();
+            classTo.MClass.m_Spellbook = null;
+            if (classTo.MClass == _azata.MClass)
+            {
+                AddAivu(classTo);
+            }
+        }
+
+        private void LegendarifyClass(MythicClass classTo)
+        {
+            for (int i = 3; i < 10; i++)
+            {
+                Utils.CreateBlueprint<BlueprintStatProgression>($"LegendarifiedMR{i}XPTable", Legendarify.GuidDict[i], bp =>
+                {
+                    bp.Bonuses = Legendarify.XPTableDict[i];
+                });
+            }
+            var legendarificationStatBonus = Utils.CreateBlueprint<BlueprintFeature>($"LegendarifyStatBonus", "6e052ad3-ac5e-483e-ba4d-f693629919af", bp =>
+            {
+                bp.AddComponent(new AddContextStatBonus()
+                {
+                    Descriptor = Kingmaker.Enums.ModifierDescriptor.None,
+                    Stat = Kingmaker.EntitySystem.Stats.StatType.Strength,
+                    Value = 1
+                });
+                bp.AddComponent(new AddContextStatBonus()
+                {
+                    Descriptor = Kingmaker.Enums.ModifierDescriptor.None,
+                    Stat = Kingmaker.EntitySystem.Stats.StatType.Dexterity,
+                    Value = 1
+                });
+                bp.AddComponent(new AddContextStatBonus()
+                {
+                    Descriptor = Kingmaker.Enums.ModifierDescriptor.None,
+                    Stat = Kingmaker.EntitySystem.Stats.StatType.Constitution,
+                    Value = 1
+                });
+                bp.AddComponent(new AddContextStatBonus()
+                {
+                    Descriptor = Kingmaker.Enums.ModifierDescriptor.None,
+                    Stat = Kingmaker.EntitySystem.Stats.StatType.Intelligence,
+                    Value = 1
+                });
+                bp.AddComponent(new AddContextStatBonus()
+                {
+                    Descriptor = Kingmaker.Enums.ModifierDescriptor.None,
+                    Stat = Kingmaker.EntitySystem.Stats.StatType.Wisdom,
+                    Value = 1
+                });
+                bp.AddComponent(new AddContextStatBonus()
+                {
+                    Descriptor = Kingmaker.Enums.ModifierDescriptor.None,
+                    Stat = Kingmaker.EntitySystem.Stats.StatType.Charisma,
+                    Value = 1
+                });
+                bp.m_DisplayName = Utils.CreateLocalizedString("8d3d9139-4256-43ad-8415-73d1e08b9a66", "Legendarification");
+                bp.Ranks = 4;
+                bp.ReapplyOnLevelUp = false;
+                bp.IsClassFeature = true;
+            });
+
+            classTo.MClass.m_SignatureAbilities = new BlueprintFeatureReference[0];
+            classTo.Progression.LevelEntries = Enumerable.Range(1, 8)
+                .Select(x =>
+                {
+                    var features = new List<BlueprintFeatureBaseReference>();
+                    if (x % 2 == 1)
+                    {
+                        features.Add(legendarificationStatBonus.ToReference<BlueprintFeatureBaseReference>());
                     }
                     return new LevelEntry() { Level = x, m_Features = features };
                 }

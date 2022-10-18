@@ -155,6 +155,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Legendarify.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="PowerSwapper.cs" />
     <Compile Include="SettingsModMenu.cs" />

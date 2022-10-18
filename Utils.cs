@@ -1,5 +1,8 @@
 ﻿using Kingmaker.Blueprints;
+using Kingmaker.Blueprints.Classes;
 using Kingmaker.Localization;
+using Kingmaker.ResourceLinks;
+using Kingmaker.UnitLogic.Buffs.Blueprints;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,25 +11,12 @@ namespace MythicPathPowerSwapper
 {
     public static class Utils
     {
-        public static Guid ParseRef(string str)
-        {
-            if (str == null || str == "")
-            {
-                return Guid.Empty;
-            }
-            else
-            {
-                Guid.TryParse(str, out Guid res);
-                return res;
-            }
-        }
-
         public static BlueprintGuid ParseToBPGuid(string str)
         {
-            var r = ParseRef(str);
+            var r = Guid.Parse(str);
             if (r == null || r == Guid.Empty)
             {
-
+                throw new ArgumentException("Invalid guid");
             }
             return new BlueprintGuid(r);
         }
@@ -46,16 +36,23 @@ namespace MythicPathPowerSwapper
             }
             return obj;
         }
+        public static T GetBlueprint<T>(Guid guid) where T : SimpleBlueprint
+        {
+            if (guid == null || guid == Guid.Empty)
+            {
+                throw new ArgumentException("Invalid guid");
+            }
+            if (ResourcesLibrary.TryGetBlueprint(new BlueprintGuid(guid)) is not T obj)
+            {
+                throw new InvalidReferenceException(guid.ToString());
+            }
+            return obj;
+        }
 
         public static T GetBlueprintReference<T>(string id) where T : BlueprintReferenceBase
         {
-            var guid = ParseRef(id);
-            if (guid == null || guid == Guid.Empty)
-            {
-                return null;
-            }
             T val = Activator.CreateInstance<T>();
-            val.deserializedGuid = new BlueprintGuid(guid);
+            val.deserializedGuid = ParseToBPGuid(id);
             return val;
         }
 
@@ -133,6 +130,49 @@ namespace MythicPathPowerSwapper
             var localizedString = new LocalizedString() { m_Key = key };
             LocalizationManager.CurrentPack.PutString(key, value);
             return localizedString;
+        }
+
+        public static T CreateBlueprint<T>(string name, string guid, Action<T> init = null) where T : SimpleBlueprint, new()
+        {
+            T val = new()
+            {
+                name = name,
+                AssetGuid = ParseToBPGuid(guid)
+            };
+            T val2 = val;
+            AddBlueprint(val2, val2.AssetGuid);
+            SetRequiredBlueprintFields(val2);
+            init?.Invoke(val2);
+            return val2;
+        }
+
+        internal static void AddBlueprint(SimpleBlueprint blueprint, BlueprintGuid assetId)
+        {
+            SimpleBlueprint simpleBlueprint = ResourcesLibrary.TryGetBlueprint(assetId);
+            if (simpleBlueprint == null)
+            {
+                ResourcesLibrary.BlueprintsCache.AddCachedBlueprint(assetId, blueprint);
+                blueprint.OnEnable();
+            }
+        }
+
+        private static void SetRequiredBlueprintFields(SimpleBlueprint blueprint)
+        {
+            BlueprintBuff blueprintBuff = blueprint as BlueprintBuff;
+            if (blueprintBuff == null)
+            {
+                BlueprintFeature blueprintFeature = blueprint as BlueprintFeature;
+                if (blueprintFeature != null)
+                {
+                    blueprintFeature.IsClassFeature = true;
+                }
+            }
+            else
+            {
+                blueprintBuff.FxOnStart = new PrefabLink();
+                blueprintBuff.FxOnRemove = new PrefabLink();
+                blueprintBuff.IsClassFeature = true;
+            }
         }
     }
 }
