@@ -270,6 +270,8 @@ namespace MythicPathPowerSwapper
             {
                 AddAivu(classTo);
             }
+            var mythicStartingProgression = Utils.GetBlueprint<BlueprintProgression>("af4ee0acb9114e544bf02f39027966b0");
+            mythicStartingProgression.LevelEntries.Where(x => x.Level > 2).ForEach(x => x.m_Features = new());
         }
 
         private void UnMythicStarter()
@@ -296,6 +298,10 @@ namespace MythicPathPowerSwapper
                     {
                         features.Add(_mythicFeatSelection);
                     }
+                    if (x == 1)
+                    {
+                        features.Add(Utils.GetBlueprintReference<BlueprintFeatureBaseReference>("24e78475f0a243e1a810452d14d0a1bd"));
+                    }
                     return new LevelEntry() { Level = x, m_Features = features };
                 }
                 ).ToArray();
@@ -317,43 +323,45 @@ namespace MythicPathPowerSwapper
             }
             var legendarificationStatBonus = Utils.CreateBlueprint<BlueprintFeature>($"LegendarifyStatBonus", "6e052ad3-ac5e-483e-ba4d-f693629919af", bp =>
             {
-                bp.AddComponent(new AddContextStatBonus()
+                bp.AddComponent(new AddStatBonus()
                 {
                     Descriptor = Kingmaker.Enums.ModifierDescriptor.None,
                     Stat = Kingmaker.EntitySystem.Stats.StatType.Strength,
                     Value = 1
                 });
-                bp.AddComponent(new AddContextStatBonus()
+                bp.AddComponent(new AddStatBonus()
                 {
                     Descriptor = Kingmaker.Enums.ModifierDescriptor.None,
                     Stat = Kingmaker.EntitySystem.Stats.StatType.Dexterity,
                     Value = 1
                 });
-                bp.AddComponent(new AddContextStatBonus()
+                bp.AddComponent(new AddStatBonus()
                 {
                     Descriptor = Kingmaker.Enums.ModifierDescriptor.None,
                     Stat = Kingmaker.EntitySystem.Stats.StatType.Constitution,
                     Value = 1
                 });
-                bp.AddComponent(new AddContextStatBonus()
+                bp.AddComponent(new AddStatBonus()
                 {
                     Descriptor = Kingmaker.Enums.ModifierDescriptor.None,
                     Stat = Kingmaker.EntitySystem.Stats.StatType.Intelligence,
                     Value = 1
                 });
-                bp.AddComponent(new AddContextStatBonus()
+                bp.AddComponent(new AddStatBonus()
                 {
                     Descriptor = Kingmaker.Enums.ModifierDescriptor.None,
                     Stat = Kingmaker.EntitySystem.Stats.StatType.Wisdom,
                     Value = 1
                 });
-                bp.AddComponent(new AddContextStatBonus()
+                bp.AddComponent(new AddStatBonus()
                 {
                     Descriptor = Kingmaker.Enums.ModifierDescriptor.None,
                     Stat = Kingmaker.EntitySystem.Stats.StatType.Charisma,
                     Value = 1
                 });
+                bp.AddComponent(new DisableClassAdditionalVisualSettings());
                 bp.m_DisplayName = Utils.CreateLocalizedString("8d3d9139-4256-43ad-8415-73d1e08b9a66", "Legendarification");
+                bp.m_Description = Utils.CreateLocalizedString("803e8380-3d2a-47da-945d-0e2871b51b37", "At odd mythic ranks you receive stacking bonus +1 to all stats.");
                 bp.Ranks = 4;
                 bp.ReapplyOnLevelUp = false;
                 bp.IsClassFeature = true;
@@ -368,6 +376,14 @@ namespace MythicPathPowerSwapper
                     {
                         features.Add(legendarificationStatBonus.ToReference<BlueprintFeatureBaseReference>());
                     }
+                    if (x == 1)
+                    {
+                        features.Add(Utils.GetBlueprintReference<BlueprintFeatureBaseReference>("24e78475f0a243e1a810452d14d0a1bd"));
+                    }
+                    if (x == 7)
+                    {
+                        features.Add(Utils.GetBlueprintReference<BlueprintFeatureBaseReference>("27327f8954cd4f91ab3deaebf1f8cfa7"));
+                    }
                     return new LevelEntry() { Level = x, m_Features = features };
                 }
                 ).ToArray();
@@ -376,6 +392,8 @@ namespace MythicPathPowerSwapper
             {
                 AddAivu(classTo);
             }
+            var mythicStartingProgression = Utils.GetBlueprint<BlueprintProgression>("af4ee0acb9114e544bf02f39027966b0");
+            mythicStartingProgression.LevelEntries.Where(x => x.Level > 2).ForEach(x => x.m_Features = new());
         }
 
         private void AddAivu(MythicClass classTo)

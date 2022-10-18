@@ -133,6 +133,24 @@ namespace MythicPathPowerSwapper
                 return false;
             }
         }
+
+        [HarmonyPatch(typeof(UnitProgressionData), nameof(UnitProgressionData.MaxCharacterLevel), MethodType.Getter)]
+        static class UnitProgressionData_MaxCharacterLevel_Patch
+        {
+            [HarmonyPrefix]
+            static bool Prefix(ref int __result, UnitProgressionData __instance)
+            {
+                var unitEntityData = __instance.Owner;
+                if (!unitEntityData.IsMainCharacter) return true;
+                if (!Main.Settings.IsLegendarification) return true;
+                var mythicClass = unitEntityData.Progression.GetCurrentMythicClass();
+                if (!IsPatchedMythic(mythicClass)) return true;
+
+                __result = 40;
+                return false;
+            }
+        }
+
     }
 
     internal class Legendarify
