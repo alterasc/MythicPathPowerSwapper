@@ -6,11 +6,11 @@ Allows changing mythic powers to powers from another path, or playing without my
 
 I recommend using [Modfinder](https://github.com/Pathfinder-WOTR-Modding-Community/ModFinder/releases) to download WotR mods. 
 
-But if you don't want to, here are the links for manual download (**Install only one, not both**):  
+But if you don't want to, here are the links for manual download:  
 
 First get [ModMenu](https://github.com/WittleWolfie/ModMenu/releases) if you don't have it
 
-Now download this mod: [**LINK**](https://github.com/alterasc/CombatRelief/releases/latest)
+Now download this mod: [**LINK**](https://github.com/alterasc/MythicPathPowerSwapper/releases/latest)
 
 ## How to install:
 
