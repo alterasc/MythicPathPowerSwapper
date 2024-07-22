@@ -11,9 +11,9 @@ using System.Collections.Generic;
 
 namespace MythicPathPowerSwapper;
 
-internal class Patches
+[HarmonyPatch]
+internal class LegendarifyPatches
 {
-
     internal static bool IsPatchedMythic(ClassData classData)
     {
         if (classData == null) return false;
@@ -22,134 +22,145 @@ internal class Patches
         return false;
     }
 
+    /// <summary>
+    /// This levels unit to specified level
+    /// </summary>
     [HarmonyPatch(typeof(AdvanceUnitLevel), nameof(AdvanceUnitLevel.RunAction))]
-    static class AdvanceUnitLevel_RunAction_Patch
+    [HarmonyPrefix]
+    [HarmonyBefore("0ToyBox0")]
+    static bool AdvanceUnitLevel_RunAction_Patch(ref AdvanceUnitLevel __instance)
     {
-        [HarmonyPrefix]
-        static bool Prefix(ref AdvanceUnitLevel __instance)
-        {
-            UnitEntityData unitEntityData = __instance.Unit.GetValue();
-            if (!unitEntityData.IsMainCharacter) return true;
-            if (!Main.Settings.IsLegendarification) return true;
-            var mythicClass = unitEntityData.Progression.GetCurrentMythicClass();
-            if (!IsPatchedMythic(mythicClass)) return true;
+        UnitEntityData unitEntityData = __instance.Unit.GetValue();
+        if (!unitEntityData.IsMainCharacter) return true;
+        if (!Main.Settings.IsLegendarification) return true;
+        var mythicClass = unitEntityData.Progression.GetCurrentMythicClass();
+        if (!IsPatchedMythic(mythicClass)) return true;
 
-            var xpTbl = Legendarify.XPTableDict[unitEntityData.Progression.MythicLevel];
-            unitEntityData.Descriptor.Progression.AdvanceExperienceTo(xpTbl[Math.Min(xpTbl.Length - 1, __instance.Level.GetValue())], false);
-            return false;
-        }
+        var xpTbl = Legendarify.XPTableDict[unitEntityData.Progression.MythicLevel];
+        unitEntityData.Descriptor.Progression.AdvanceExperienceTo(xpTbl[Math.Min(xpTbl.Length - 1, __instance.Level.GetValue())], false);
+        return false;
     }
 
+    /// <summary>
+    /// This levels unit to specified level too.
+    /// Basically duplicated method
+    /// </summary>
+    /// <param name="__instance"></param>
+    /// <returns></returns>
     [HarmonyPatch(typeof(LevelUpUnit), nameof(LevelUpUnit.RunAction))]
-    static class LevelUpUnit_RunAction_Patch
+    [HarmonyPrefix]
+    [HarmonyBefore("0ToyBox0")]
+    static bool LevelUpUnit_RunAction_Patch(ref LevelUpUnit __instance)
     {
-        [HarmonyPrefix]
-        static bool Prefix(ref LevelUpUnit __instance)
-        {
-            UnitEntityData unitEntityData = __instance.Unit.GetValue();
-            if (!unitEntityData.IsMainCharacter) return true;
-            if (!Main.Settings.IsLegendarification) return true;
-            var mythicClass = unitEntityData.Progression.GetCurrentMythicClass();
-            if (!IsPatchedMythic(mythicClass)) return true;
+        UnitEntityData unitEntityData = __instance.Unit.GetValue();
+        if (!unitEntityData.IsMainCharacter) return true;
+        if (!Main.Settings.IsLegendarification) return true;
+        var mythicClass = unitEntityData.Progression.GetCurrentMythicClass();
+        if (!IsPatchedMythic(mythicClass)) return true;
 
-            var xpTbl = Legendarify.XPTableDict[unitEntityData.Progression.MythicLevel];
-            unitEntityData.Descriptor.Progression.AdvanceExperienceTo(xpTbl[__instance.TargetLevel.GetValue()]);
-            return false;
-        }
+        var xpTbl = Legendarify.XPTableDict[unitEntityData.Progression.MythicLevel];
+        unitEntityData.Descriptor.Progression.AdvanceExperienceTo(xpTbl[__instance.TargetLevel.GetValue()]);
+        return false;
     }
 
+    /// <summary>
+    /// Returns needed amount of xp for given level
+    /// </summary>
     [HarmonyPatch(typeof(UnitExperienceForLevel), nameof(UnitExperienceForLevel.GetValueInternal))]
-    static class UnitExperienceForLevel_GetValueInternal_Patch
+    [HarmonyPrefix]
+    [HarmonyBefore("0ToyBox0")]
+    static bool UnitExperienceForLevel_GetValueInternal_Patch(ref UnitExperienceForLevel __instance, ref int __result)
     {
-        [HarmonyPrefix]
-        static bool Prefix(ref UnitExperienceForLevel __instance, ref int __result)
+        UnitEntityData unitEntityData;
+        if (__instance.Unit == null || !__instance.Unit.CanEvaluate() || !__instance.Unit.TryGetValue(out unitEntityData))
         {
-            UnitEntityData unitEntityData;
-            if (__instance.Unit == null || !__instance.Unit.CanEvaluate() || !__instance.Unit.TryGetValue(out unitEntityData))
-            {
-                __result = 0;
-                return false;
-            }
-            if (__instance.Level == null || !__instance.Level.CanEvaluate() || !__instance.Level.TryGetValue(out int level))
-            {
-                __result = 0;
-                return false;
-            }
-            if (!unitEntityData.IsMainCharacter) return true;
-            if (!Main.Settings.IsLegendarification) return true;
-            var mythicClass = unitEntityData.Progression.GetCurrentMythicClass();
-            if (!IsPatchedMythic(mythicClass)) return true;
-
-            var xpTbl = Legendarify.XPTableDict[unitEntityData.Progression.MythicLevel];
-            __result = xpTbl[level];
+            __result = 0;
             return false;
         }
+        if (__instance.Level == null || !__instance.Level.CanEvaluate() || !__instance.Level.TryGetValue(out int level))
+        {
+            __result = 0;
+            return false;
+        }
+        if (!unitEntityData.IsMainCharacter) return true;
+        if (!Main.Settings.IsLegendarification) return true;
+        var mythicClass = unitEntityData.Progression.GetCurrentMythicClass();
+        if (!IsPatchedMythic(mythicClass)) return true;
+
+        var xpTbl = Legendarify.XPTableDict[unitEntityData.Progression.MythicLevel];
+        __result = xpTbl[level];
+        return false;
     }
 
+    /// <summary>
+    /// Calculates unit level
+    /// </summary>
+    /// <param name="__result"></param>
+    /// <param name="unit"></param>
+    /// <returns></returns>
     [HarmonyPatch(typeof(LevelUpController), nameof(LevelUpController.GetEffectiveLevel))]
-    static class LevelUpController_GetEffectiveLevel_Patch
+    [HarmonyPrefix]
+    [HarmonyBefore("0ToyBox0")]
+    static bool LevelUpController_GetEffectiveLevel_Patch(ref int __result, UnitEntityData unit)
     {
-        [HarmonyPrefix]
-        static bool Prefix(ref int __result, UnitEntityData unit)
+        UnitEntityData unitEntityData = unit;
+        if (unitEntityData is null)
+            unitEntityData = Game.Instance.Player.MainCharacter.Value;
+        unit = unitEntityData;
+        if (unit == null)
         {
-            UnitEntityData unitEntityData = unit;
-            if (unitEntityData is null)
-                unitEntityData = Game.Instance.Player.MainCharacter.Value;
-            unit = unitEntityData;
-            if (unit == null)
-            {
-                __result = 1;
-                return false;
-            }
-            if (!unitEntityData.IsMainCharacter) return true;
-            if (!Main.Settings.IsLegendarification) return true;
-            var mythicClass = unitEntityData.Progression.GetCurrentMythicClass();
-            if (!IsPatchedMythic(mythicClass)) return true;
-
-            int characterLevel = unit.Progression.CharacterLevel;
-            int experience = unit.Progression.Experience;
-            var xpTbl = Legendarify.XPTableDict[unitEntityData.Progression.MythicLevel];
-            while (characterLevel < 20 && xpTbl[characterLevel + 1] <= experience)
-                ++characterLevel;
-            __result = characterLevel;
+            __result = 1;
             return false;
         }
+        if (!unitEntityData.IsMainCharacter) return true;
+        if (!Main.Settings.IsLegendarification) return true;
+        var mythicClass = unitEntityData.Progression.GetCurrentMythicClass();
+        if (!IsPatchedMythic(mythicClass)) return true;
+
+        int characterLevel = unit.Progression.CharacterLevel;
+        int experience = unit.Progression.Experience;
+        var xpTbl = Legendarify.XPTableDict[unitEntityData.Progression.MythicLevel];
+        while (characterLevel < 20 && xpTbl[characterLevel + 1] <= experience)
+            ++characterLevel;
+        __result = characterLevel;
+        return false;
     }
 
+    /// <summary>
+    /// Returns legendarified XP table for current mythic rank
+    /// </summary>
+    [HarmonyPrefix]
     [HarmonyPatch(typeof(UnitProgressionData), nameof(UnitProgressionData.ExperienceTable), MethodType.Getter)]
-    static class UnitProgressionData_ExperienceTable_Patch
+    [HarmonyBefore("0ToyBox0")]
+    static bool UnitProgressionData_ExperienceTable_Patch(ref BlueprintStatProgression __result, UnitProgressionData __instance)
     {
-        [HarmonyPrefix]
-        static bool Prefix(ref BlueprintStatProgression __result, UnitProgressionData __instance)
-        {
-            var unitEntityData = __instance.Owner;
-            if (!unitEntityData.IsMainCharacter) return true;
-            if (!Main.Settings.IsLegendarification) return true;
-            var mythicClass = unitEntityData.Progression.GetCurrentMythicClass();
-            if (!IsPatchedMythic(mythicClass)) return true;
+        var unitEntityData = __instance.Owner;
+        if (!unitEntityData.IsMainCharacter) return true;
+        if (!Main.Settings.IsLegendarification) return true;
+        var mythicClass = unitEntityData.Progression.GetCurrentMythicClass();
+        if (!IsPatchedMythic(mythicClass)) return true;
 
-            __result = Utils.GetBlueprint<BlueprintStatProgression>(Legendarify.GuidDict[unitEntityData.Progression.MythicLevel]);
-            return false;
-        }
+        __result = Utils.GetBlueprint<BlueprintStatProgression>(Legendarify.GuidDict[unitEntityData.Progression.MythicLevel]);
+        return false;
     }
 
+    /// <summary>
+    /// Getter of max character level
+    /// </summary>
     [HarmonyPatch(typeof(UnitProgressionData), nameof(UnitProgressionData.MaxCharacterLevel), MethodType.Getter)]
-    static class UnitProgressionData_MaxCharacterLevel_Patch
+    [HarmonyPrefix]
+    [HarmonyBefore("0ToyBox0")]
+    static bool UnitProgressionData_MaxCharacterLevel_Patch(ref int __result, UnitProgressionData __instance)
     {
-        [HarmonyPrefix]
-        static bool Prefix(ref int __result, UnitProgressionData __instance)
-        {
-            var unitEntityData = __instance.Owner;
-            if (!unitEntityData.IsMainCharacter) return true;
-            if (!Main.Settings.IsLegendarification) return true;
-            var mythicClass = unitEntityData.Progression.GetCurrentMythicClass();
-            if (!IsPatchedMythic(mythicClass)) return true;
+        var unitEntityData = __instance.Owner;
+        if (!unitEntityData.IsMainCharacter) return true;
+        if (!Main.Settings.IsLegendarification) return true;
+        var mythicClass = unitEntityData.Progression.GetCurrentMythicClass();
+        if (!IsPatchedMythic(mythicClass)) return true;
 
-            __result = 40;
-            return false;
-        }
+        __result = 40;
+        return false;
     }
-
 }
 
 internal class Legendarify
@@ -173,8 +184,8 @@ internal class Legendarify
         { 10, m9id }
     };
 
-    public static readonly int[] MR3XPTable = new int[]
-    {
+    public static readonly int[] MR3XPTable =
+    [
         0,
         0,
         2000,
@@ -216,9 +227,9 @@ internal class Legendarify
         465000000,
         635000000,
         860000000
-    };
-    public static readonly int[] MR4XPTable = new int[]
-    {
+    ];
+    public static readonly int[] MR4XPTable =
+    [
         0,
         0,
         2000,
@@ -260,8 +271,8 @@ internal class Legendarify
         220000000,
         290000000,
         380000000
-    };
-    public static readonly int[] MR5XPTable = new int[] {
+    ];
+    public static readonly int[] MR5XPTable = [
         0,
         0,
         2000,
@@ -303,8 +314,8 @@ internal class Legendarify
         100000000,
         130000000,
         170000000
-    };
-    public static readonly int[] MR6XPTable = new int[] {
+    ];
+    public static readonly int[] MR6XPTable = [
         0,
         0,
         2000,
@@ -346,8 +357,8 @@ internal class Legendarify
         48000000,
         60000000,
         75500000
-    };
-    public static readonly int[] MR7XPTable = new int[] {
+    ];
+    public static readonly int[] MR7XPTable = [
         0,
         0,
         2000,
@@ -389,8 +400,8 @@ internal class Legendarify
         22500000,
         27500000,
         33500000
-    };
-    public static readonly int[] MR8XPTable = new int[] {
+    ];
+    public static readonly int[] MR8XPTable = [
         0,
         0,
         2000,
@@ -432,8 +443,8 @@ internal class Legendarify
         10500000,
         12500000,
         15000000
-    };
-    public static readonly int[] MR9XPTable = new int[] {
+    ];
+    public static readonly int[] MR9XPTable = [
         0,
         0,
         2000,
@@ -475,7 +486,7 @@ internal class Legendarify
         4900000,
         5700000,
         6650000
-    };
+    ];
     public static readonly Dictionary<int, int[]> XPTableDict = new()
     {
         { 3, MR3XPTable },

@@ -11,7 +11,6 @@ using Kingmaker.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static Kingmaker.Blueprints.Classes.BlueprintProgression;
 
 namespace MythicPathPowerSwapper;
 
@@ -99,6 +98,8 @@ internal class PowerSwapper
     private BlueprintFeatureBaseReference _mythicFeatSelection = Utils.GetBlueprintReference<BlueprintFeatureBaseReference>("9ee0f6745f555484299b0a1563b99d81");
     private void Swap()
     {
+        CreateLegendarifyBlueprints();
+
         var mTo = Main.Settings.MythicToChange;
         var mFrom = Main.Settings.MythicFrom;
         Main.ModEntry.Logger.Log($"Replacing {mTo} with {mFrom}");
@@ -196,7 +197,7 @@ internal class PowerSwapper
         mClassFrom.Spellbook.m_CharacterClass = classToRef;
         mClassTo.MClass.m_SignatureAbilities = mClassFrom.MClass.m_SignatureAbilities;
 
-        mClassFrom.SummonProgression.m_Classes = new ClassWithLevel[] { new() { m_Class = classToRef } };
+        mClassFrom.SummonProgression.m_Classes = [new() { m_Class = classToRef }];
         foreach (var entry in mClassFrom.SummonProgression.LevelEntries)
         {
             foreach (var feature in entry.m_Features)
@@ -232,11 +233,11 @@ internal class PowerSwapper
             .ForEach(x => x.m_CharacterClass = classToRef);
 
         var lifeBondingFriendshipProgression = Utils.GetBlueprint<BlueprintProgression>("6c85301c50c6621409b42b83ce9cc6d9");
-        lifeBondingFriendshipProgression.m_Classes = new ClassWithLevel[] { new() { m_Class = classToRef } };
+        lifeBondingFriendshipProgression.m_Classes = [new() { m_Class = classToRef }];
 
         var marvelousEnduranceFastHealingProperty = Utils.GetBlueprint<BlueprintUnitProperty>("ca1b4b40b9f5407f904738b575bac1ca");
         marvelousEnduranceFastHealingProperty.GetComponents<SummClassLevelGetter>()
-            .ForEach(x => x.m_Class = new BlueprintCharacterClassReference[] { classToRef, _mythicHeroClassRef });
+            .ForEach(x => x.m_Class = [classToRef, _mythicHeroClassRef]);
     }
 
     private void LichFromUpdate(MythicClass classTo)
@@ -245,8 +246,8 @@ internal class PowerSwapper
 
         var deathOfElementsConsumingElementsResource = Utils.GetBlueprint<BlueprintAbilityResource>("7a558d186755620439e35817f174f749");
         var maxAm = deathOfElementsConsumingElementsResource.m_MaxAmount;
-        maxAm.m_Class = new BlueprintCharacterClassReference[] { classToRef };
-        maxAm.m_ClassDiv = new BlueprintCharacterClassReference[] { _mythicHeroClassRef, classToRef };
+        maxAm.m_Class = [classToRef];
+        maxAm.m_ClassDiv = [_mythicHeroClassRef, classToRef];
 
         var lichSkeletalUpgradeSelection = Utils.GetBlueprint<BlueprintFeatureSelection>("a434dddab8026e947bc16eb36d18a783");
         foreach (var feature in lichSkeletalUpgradeSelection.m_AllFeatures)
@@ -255,14 +256,14 @@ internal class PowerSwapper
             {
                 progression.GetComponents<PrerequisiteClassLevel>()
                     .ForEach(x => x.m_CharacterClass = classToRef);
-                progression.m_Classes = new ClassWithLevel[] { new() { m_Class = classToRef } };
+                progression.m_Classes = [new() { m_Class = classToRef }];
             }
         }
     }
 
     private void UnMythic(MythicClass classTo)
     {
-        classTo.MClass.m_SignatureAbilities = new BlueprintFeatureReference[0];
+        classTo.MClass.m_SignatureAbilities = [];
         classTo.Progression.LevelEntries = Enumerable.Range(1, 8).Select(x => new LevelEntry() { Level = x }).ToArray();
         classTo.MClass.m_Spellbook = null;
         if (classTo.MClass == _azata.MClass)
@@ -270,21 +271,21 @@ internal class PowerSwapper
             AddAivu(classTo);
         }
         var mythicStartingProgression = Utils.GetBlueprint<BlueprintProgression>("af4ee0acb9114e544bf02f39027966b0");
-        mythicStartingProgression.LevelEntries.Where(x => x.Level > 2).ForEach(x => x.m_Features = new());
+        mythicStartingProgression.LevelEntries.Where(x => x.Level > 2).ForEach(x => x.m_Features = []);
     }
 
     private void UnMythicStarter()
     {
         var mythicStartingProgression = Utils.GetBlueprint<BlueprintProgression>("af4ee0acb9114e544bf02f39027966b0");
-        mythicStartingProgression.LevelEntries[0].m_Features = new();
-        mythicStartingProgression.LevelEntries[1].m_Features = new()
-        {
+        mythicStartingProgression.LevelEntries[0].m_Features = [];
+        mythicStartingProgression.LevelEntries[1].m_Features =
+        [
             Utils.GetBlueprintReference<BlueprintFeatureBaseReference>("bef12729fa3f9b34488634f61751e295")
-        };
+        ];
     }
     private void PartialUnMythic(MythicClass classTo)
     {
-        classTo.MClass.m_SignatureAbilities = new BlueprintFeatureReference[0];
+        classTo.MClass.m_SignatureAbilities = [];
         classTo.Progression.LevelEntries = Enumerable.Range(1, 8)
             .Select(x =>
             {
@@ -311,7 +312,10 @@ internal class PowerSwapper
         }
     }
 
-    private void LegendarifyClass(MythicClass classTo)
+    /// <summary>
+    /// Creates Legendarify blueprints
+    /// </summary>
+    private void CreateLegendarifyBlueprints()
     {
         for (int i = 3; i < 10; i++)
         {
@@ -365,15 +369,19 @@ internal class PowerSwapper
             bp.ReapplyOnLevelUp = false;
             bp.IsClassFeature = true;
         });
+    }
 
-        classTo.MClass.m_SignatureAbilities = new BlueprintFeatureReference[0];
+    private void LegendarifyClass(MythicClass classTo)
+    {
+        var legendarificationStatBonusRef = Utils.GetBlueprintReference<BlueprintFeatureBaseReference>("6e052ad3-ac5e-483e-ba4d-f693629919af");
+        classTo.MClass.m_SignatureAbilities = [];
         classTo.Progression.LevelEntries = Enumerable.Range(1, 8)
             .Select(x =>
             {
                 var features = new List<BlueprintFeatureBaseReference>();
                 if (x % 2 == 1)
                 {
-                    features.Add(legendarificationStatBonus.ToReference<BlueprintFeatureBaseReference>());
+                    features.Add(legendarificationStatBonusRef);
                 }
                 if (x == 1)
                 {
@@ -392,7 +400,7 @@ internal class PowerSwapper
             AddAivu(classTo);
         }
         var mythicStartingProgression = Utils.GetBlueprint<BlueprintProgression>("af4ee0acb9114e544bf02f39027966b0");
-        mythicStartingProgression.LevelEntries.Where(x => x.Level > 2).ForEach(x => x.m_Features = new());
+        mythicStartingProgression.LevelEntries.Where(x => x.Level > 2).ForEach(x => x.m_Features = []);
     }
 
     private void AddAivu(MythicClass classTo)

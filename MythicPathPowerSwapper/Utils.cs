@@ -58,7 +58,7 @@ public static class Utils
 
     public static void SetComponents(this BlueprintScriptableObject obj, params BlueprintComponent[] components)
     {
-        HashSet<string> hashSet = new();
+        HashSet<string> hashSet = [];
         foreach (BlueprintComponent blueprintComponent in components)
         {
             if (string.IsNullOrEmpty(blueprintComponent.name))

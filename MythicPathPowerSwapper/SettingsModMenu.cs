@@ -43,8 +43,8 @@ internal class SettingsModMenu
 
     internal void Initialize()
     {
-        List<LocalizedString> mythics = new()
-        {
+        List<LocalizedString> mythics =
+        [
             CreateString("none", "No change"),
             CreateString("aeon", "Aeon"),
             CreateString("angel", "Angel"),
@@ -52,12 +52,14 @@ internal class SettingsModMenu
             CreateString("demon", "Demon"),
             CreateString("lich", "Lich"),
             CreateString("trickster", "Trickster")
-        };
+        ];
 
-        var mythicSource = new List<LocalizedString>(mythics);
-        mythicSource.Add(CreateString("partialunmythic", "Remove path powers"));
-        mythicSource.Add(CreateString("unmythic", "Remove all mythic powers"));
-        mythicSource.Add(CreateString("legendarify", "Legendarify path"));
+        var mythicSource = new List<LocalizedString>(mythics)
+        {
+            CreateString("partialunmythic", "Remove path powers"),
+            CreateString("unmythic", "Remove all mythic powers"),
+            CreateString("legendarify", "Legendarify path")
+        };
 
         ModMenu.ModMenu.AddSettings(
           SettingsBuilder
