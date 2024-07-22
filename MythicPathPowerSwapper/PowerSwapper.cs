@@ -28,6 +28,13 @@ internal class PowerSwapper
         public BlueprintProgression Progression;
         public BlueprintProgression SummonProgression;
         public BlueprintItemEquipmentShoulders Cloak;
+
+        public MythicClass(Guid classGuid)
+        {
+            MClass = Utils.GetBlueprint<BlueprintCharacterClass>(classGuid);
+            Spellbook = MClass.Spellbook;
+            Progression = MClass.Progression;
+        }
     }
 
     internal static readonly Guid AeonId = Guid.Parse("15a85e67b7d69554cab9ed5830d0268e");
@@ -37,72 +44,53 @@ internal class PowerSwapper
     internal static readonly Guid LichId = Guid.Parse("5d501618a28bdc24c80007a5c937dcb7");
     internal static readonly Guid TricksterId = Guid.Parse("8df873a8c6e48294abdb78c45834aa0a");
 
-    private MythicClass _aeon = new()
+    private readonly MythicClass _aeon = new(AeonId)
     {
-        MClass = Utils.GetBlueprint<BlueprintCharacterClass>(AeonId),
-        Spellbook = Utils.GetBlueprint<BlueprintSpellbook>("6091d66a2a9876b4891b989804cfbcb6"),
-        Progression = Utils.GetBlueprint<BlueprintProgression>("34b9484b0d5ce9340ae51d2bf9518bbe"),
         SummonProgression = Utils.GetBlueprint<BlueprintProgression>("f2305312ccccc2a46a49ba834ff7a092"),
         Cloak = Utils.GetBlueprint<BlueprintItemEquipmentShoulders>("b24d6185acea1f949b026c3b58e47947")
     };
 
-    private MythicClass _angel = new()
+    private readonly MythicClass _angel = new(AngelId)
     {
-        MClass = Utils.GetBlueprint<BlueprintCharacterClass>(AngelId),
-        Spellbook = Utils.GetBlueprint<BlueprintSpellbook>("015658ac45811b843b036e4ccc96c772"),
-        Progression = Utils.GetBlueprint<BlueprintProgression>("2f6fe889e91b6a645b055696c01e2f74"),
         SummonProgression = Utils.GetBlueprint<BlueprintProgression>("038090ec6b6a205418665f2489606534"),
         Cloak = Utils.GetBlueprint<BlueprintItemEquipmentShoulders>("2f45a11adb74b5a4a81f857a9886c5bd")
     };
 
-    private MythicClass _azata = new()
+    private readonly MythicClass _azata = new(AzataId)
     {
-        MClass = Utils.GetBlueprint<BlueprintCharacterClass>(AzataId),
-        Spellbook = Utils.GetBlueprint<BlueprintSpellbook>("b21b9f5e2831c2549a782d8128fb905b"),
-        Progression = Utils.GetBlueprint<BlueprintProgression>("9db53de4bf21b564ca1a90ff5bd16586"),
         SummonProgression = Utils.GetBlueprint<BlueprintProgression>("b172d5db251e3e0499671074ee15f7df"),
         Cloak = Utils.GetBlueprint<BlueprintItemEquipmentShoulders>("78cd50deada655e4cbe49765c0bbb7e4")
     };
 
-    private MythicClass _demon = new()
+    private readonly MythicClass _demon = new(DemonId)
     {
-        MClass = Utils.GetBlueprint<BlueprintCharacterClass>(DemonId),
-        Spellbook = Utils.GetBlueprint<BlueprintSpellbook>("e3daa889c72982e45a026f62cc84937d"),
-        Progression = Utils.GetBlueprint<BlueprintProgression>("285fe49f7df8587468f676aa49362213"),
         SummonProgression = Utils.GetBlueprint<BlueprintProgression>("7764f540fbab8ab4c95492f1d8d4f04f"),
         Cloak = Utils.GetBlueprint<BlueprintItemEquipmentShoulders>("cdc95a3c4a74a874a895b3be61369564")
     };
 
-    private MythicClass _lich = new()
+    private readonly MythicClass _lich = new(LichId)
     {
-        MClass = Utils.GetBlueprint<BlueprintCharacterClass>(LichId),
-        Spellbook = Utils.GetBlueprint<BlueprintSpellbook>("08a80074263809c4b9616aac05af90ae"),
-        Progression = Utils.GetBlueprint<BlueprintProgression>("ccec4e01b85bf5d46a3c3717471ba639"),
         SummonProgression = Utils.GetBlueprint<BlueprintProgression>("7de9c45b07635e2418dffc185bd2eff4"),
         Cloak = Utils.GetBlueprint<BlueprintItemEquipmentShoulders>("1622ceba1d7829b4f9ee709b71bd6baf")
     };
 
-    private MythicClass _trickster = new()
+    private readonly MythicClass _trickster = new(TricksterId)
     {
-        MClass = Utils.GetBlueprint<BlueprintCharacterClass>(TricksterId),
-        Spellbook = Utils.GetBlueprint<BlueprintSpellbook>("2ff51e0531ed8e545ab4cb35c32d40f4"),
-        Progression = Utils.GetBlueprint<BlueprintProgression>("cc64789b0cc5df14b90da1ffee7bbeea"),
         SummonProgression = Utils.GetBlueprint<BlueprintProgression>("7c6a97566f7125c4c839720200311c3c"),
         Cloak = Utils.GetBlueprint<BlueprintItemEquipmentShoulders>("50b398d4630d9f244a5db288124ff181")
     };
 
-    private BlueprintCharacterClass _mythicHeroClass = Utils.GetBlueprint<BlueprintCharacterClass>("247aa787806d5da4f89cfc3dff0b217f");
-    private BlueprintCharacterClassReference _mythicHeroClassRef = Utils.GetBlueprintReference<BlueprintCharacterClassReference>("247aa787806d5da4f89cfc3dff0b217f");
+    private readonly BlueprintCharacterClassReference _mythicHeroClassRef = Utils.GetBlueprintReference<BlueprintCharacterClassReference>("247aa787806d5da4f89cfc3dff0b217f");
 
-    private BlueprintFeatureBaseReference _mythicAbilitySelection = Utils.GetBlueprintReference<BlueprintFeatureBaseReference>("ba0e5a900b775be4a99702f1ed08914d");
-    private BlueprintFeatureBaseReference _mythicFeatSelection = Utils.GetBlueprintReference<BlueprintFeatureBaseReference>("9ee0f6745f555484299b0a1563b99d81");
+    private readonly BlueprintFeatureBaseReference _mythicAbilitySelection = Utils.GetBlueprintReference<BlueprintFeatureBaseReference>("ba0e5a900b775be4a99702f1ed08914d");
+    private readonly BlueprintFeatureBaseReference _mythicFeatSelection = Utils.GetBlueprintReference<BlueprintFeatureBaseReference>("9ee0f6745f555484299b0a1563b99d81");
     private void Swap()
     {
         CreateLegendarifyBlueprints();
 
         var mTo = Main.Settings.MythicToChange;
         var mFrom = Main.Settings.MythicFrom;
-        Main.ModEntry.Logger.Log($"Replacing {mTo} with {mFrom}");
+        Main.ModEntry.Logger.Log($"Changing {mTo} to {mFrom}");
         if (mTo != 0)
         {
             Dictionary<int, MythicClass> m = new()
@@ -150,16 +138,19 @@ internal class PowerSwapper
             }
             if (Main.Settings.AddAivu && mClassTo.MClass != _azata.MClass)
             {
+                Main.ModEntry.Logger.Log($"Adding Aivu to {mClassTo}");
                 AddAivu(mClassTo);
             }
         }
         if (Main.Settings.UnmythicHero)
         {
+            Main.ModEntry.Logger.Log($"Removing mythic powers from Mythic Hero");
             UnMythicStarter();
         }
 
         if (Main.Settings.UnmythicCompanions)
         {
+            Main.ModEntry.Logger.Log($"Removing mythic powers from Mythic Companion");
             var mythicCompanionProgression = Utils.GetBlueprint<BlueprintProgression>("21e74c19da02acb478e32da25abd9d28");
             mythicCompanionProgression.LevelEntries = Enumerable.Range(1, 10).Select(x => new LevelEntry() { Level = x }).ToArray();
         }

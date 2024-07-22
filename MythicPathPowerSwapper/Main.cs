@@ -55,8 +55,8 @@ internal static class SettingsStarter
         {
             try
             {
-                Main.HarmonyInstance.CreateClassProcessor(typeof(LegendarifyPatches)).Patch();
-                Main.ModEntry.Logger.Log("Applied Legendarify patches successfully");
+                var patches = Main.HarmonyInstance.CreateClassProcessor(typeof(LegendarifyPatches)).Patch();
+                Main.ModEntry.Logger.Log($"Applied {patches.Count} Legendarify patches successfully");
             }
             catch (System.Exception ex)
             {

@@ -14,14 +14,6 @@ namespace MythicPathPowerSwapper;
 [HarmonyPatch]
 internal class LegendarifyPatches
 {
-    internal static bool IsPatchedMythic(ClassData classData)
-    {
-        if (classData == null) return false;
-        var guid = classData.CharacterClass.AssetGuid.m_Guid;
-        if (Main.Settings.PatchedClass == guid) return true;
-        return false;
-    }
-
     /// <summary>
     /// This levels unit to specified level
     /// </summary>
@@ -159,6 +151,14 @@ internal class LegendarifyPatches
         if (!IsPatchedMythic(mythicClass)) return true;
 
         __result = 40;
+        return false;
+    }
+
+    private static bool IsPatchedMythic(ClassData classData)
+    {
+        if (classData == null) return false;
+        var guid = classData.CharacterClass.AssetGuid.m_Guid;
+        if (Main.Settings.PatchedClass == guid) return true;
         return false;
     }
 }
