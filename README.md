@@ -19,9 +19,11 @@ Now download this mod: [**LINK**](https://github.com/alterasc/MythicPathPowerSwa
 3. Install this mod.
 4. Set settings to your liking.
 5. Restart to apply them.
+   
 ## Functionality
 
-Does NOT introduce save dependency, so safe to remove mid-game. Just do respec and things should mostly (see notes below) return to normal.
+Safe to remove mid-game unless you're using Legendarify. If you're using Legendarify see Uninstallation instructions below.
+
 Affects ALL saves globally.
 
 **SETTING CHANGES APPLY ONLY AFTER RESTART**
@@ -43,7 +45,7 @@ This adds Aivu to the selected mythic path (regardless of what you're copying fr
 Options to demythic mythic hero and companions can be enabled without changes to your path powers.
 
 ## Notes
-- Affects ALL saves. Because it does not create new blueprints (for save safety ) it changes existing. As unfortunate side effect of this if you set for example Lich have Aeon powers, that changes some Aeon powers to rely on Lich Mythic class, meaning some Aeon powers will not work correctly when you're an Aeon until you reset the power swap or remove the mod.
+- Affects ALL ongoing games. If you set for example Lich have Aeon powers, that changes some Aeon powers to rely on Lich Mythic class, meaning some Aeon powers will not work correctly when you're an Aeon until you reset the power swap or remove the mod.
 - Affects things that are defined in mythic class progression. If you see it on mythic page - it's will be affected.   
 - You will get spellbook from the class that you copy from.    
 - You will receive Artifact Cloak of your original path, but enchantment will be swapped to the copied path.   
@@ -63,6 +65,12 @@ Changing to other late game paths that remove your old path abilities should wor
 - If you swap to late game non-Legend path, you get to keep your levels over 20. As far as I'm concerned this is your responsibility.
 - Exact XP table is at the bottom of readme.
 - You also get hidden legend feature that removes path visual changes.
+- *Legendarify causes removable save dependency* - don't remove mod without following uninstallation instructions
+
+## Uninstallation
+1. Reset mod options to change nothing to nothing.
+2. Respec your character.
+3. Remove mod.
 
 ## Troubleshooting
 Unless you enabled "Add Aivu", turning mod off and doing respec will solve all your problems.
@@ -72,12 +80,7 @@ If you used "Add Aivu" maybe respec will help. Maybe not.
 Maybe?   
 Depends on what and how they do things. 
 Is mostly compatible with TTT at least, that I checked.
-I've tried to set priorities so it loads also after Path of Rage and Spellbook Merge, so maybe their changes are forwarded.
-
-
-## More spellbook merge? 
-NO.  
-Not touching it.
+I've tried to set priorities so it loads also after Path of Rage and Spellbook Merge and MythicMagicMayhem, so their changes should be forwarded.
 
 ## Can I have multiple paths?  
 Out of scope for this mod.
