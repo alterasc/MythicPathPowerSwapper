@@ -9,6 +9,6 @@
   "ManagerVersion": "0.23.0",
   "Repository": "https://raw.githubusercontent.com/alterasc/MythicPathPowerSwapper/main/Repository.json",
   "Requirements": [ "ModMenu-1.2.5" ],
-  "LoadAfter": [ "MewsiferConsole.Mod", "TabletopTweaks-Core", "TabletopTweaks-Reworks", "TabletopTweaks-Base", "WOTR_PATH_OF_RAGE", "SpellbookMerge" ],
+  "LoadAfter": [ "MewsiferConsole.Mod", "TabletopTweaks-Core", "TabletopTweaks-Reworks", "TabletopTweaks-Base", "WOTR_PATH_OF_RAGE", "SpellbookMerge", "MythicMagicMayhem" ],
   "Version": "1.2.0"
 }
