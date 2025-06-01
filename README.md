@@ -59,7 +59,9 @@ Options to demythic mythic hero and companions can be enabled without changes to
 Changing to other late game paths that remove your old path abilities should work as usual.
 
 ## Legendarify
-- Removes mythic powers
+- Changes base mythic path to gradually give more levels with a a cap of 40 instead of getting usual mythic bonuses
+- Is not a Legend path plot wise and will not trigger Legend interactions in A5
+- Removes mythic powers from M3+, leaving you with M1 and M2 powers only
 - On ranks 3-5-7-9 you get stacking +1 bonus to all stats (total +4 to all stats at MR9)
 - With each mythic rank XP table gets shorter and shorter. At M3-M4 you can expect to be 1-2 levels higher than normal, at M5-M6 3-5 levels higher. At M9 progression is almost like normal legend, but to get to level 40 you need more experience than normal Legend. But you still will get lvl 40 eventually, just somewhat later. For comparison normal legend lvl 40 = legendarified lvl 38.
 - If you swap to late game non-Legend path, you get to keep your levels over 20. As far as I'm concerned this is your responsibility.
